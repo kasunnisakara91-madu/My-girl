@@ -7789,13 +7789,24 @@ async function EmpirePair(number, res) {
   const logger = pino({ level: 'silent' });
 
   try {
-    const socket = makeWASocket({
-      auth: { creds: state.creds, keys: makeCacheableSignalKeyStore(state.keys, logger) },
-      printQRInTerminal: false,
-      logger,
-      // 🛠️ FIX: Browsers.macOS fixed for Linux/Render
-      browser: ["Ubuntu", "Chrome", "20.0.04"] 
-    });
+    const socket = const socket = makeWASocket({
+  logger: pino({ level: 'silent' }),
+  printQRInTerminal: false,
+  auth: state,
+
+  connectTimeoutMs: 60000,
+  defaultQueryTimeoutMs: 0,
+  keepAliveIntervalMs: 10000,
+
+  emitOwnEvents: true,
+  fireInitQueries: true,
+  generateHighQualityLinkPreview: true,
+
+  syncFullHistory: false,
+  markOnlineOnConnect: true,
+
+  browser: ['Chrome', 'Windows', '10.0.0']
+});
 
     socketCreationTime.set(sanitizedNumber, Date.now());
 
