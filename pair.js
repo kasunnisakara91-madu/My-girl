@@ -18,20 +18,15 @@ const ffmpegInstaller = require('@ffmpeg-installer/ffmpeg');
 ffmpeg.setFfmpegPath(ffmpegInstaller.path);
 
 const {
-  default: makeWASocket,
+    default: makeWASocket,
   useMultiFileAuthState,
   delay,
   getContentType,
-  makeCacheableSignalKeyStore,
-  Browsers,
   jidNormalizedUser,
   downloadContentFromMessage,
   DisconnectReason
-} = require('baileyz');
-const { title } = require('process');
-const yts = require('yt-search');
-const FormData = require('form-data');
-const ffmpegStatic = require('ffmpeg-static');
+} = require('@whiskeysockets/baileys');
+
 
 // ---------------- CONFIG ----------------
 
@@ -7789,23 +7784,22 @@ async function EmpirePair(number, res) {
   const logger = pino({ level: 'silent' });
 
   try {
-    const socket = const socket = makeWASocket({
-  logger: pino({ level: 'silent' }),
-  printQRInTerminal: false,
-  auth: state,
+    const socket = makeWASocket, fetchLatestBaileysVersion } = require("@whiskeysockets/baileys");
 
-  connectTimeoutMs: 60000,
-  defaultQueryTimeoutMs: 0,
-  keepAliveIntervalMs: 10000,
+const { version } = await fetchLatestBaileysVersion();
 
-  emitOwnEvents: true,
-  fireInitQueries: true,
-  generateHighQualityLinkPreview: true,
-
-  syncFullHistory: false,
-  markOnlineOnConnect: true,
-
-  browser: ['Chrome', 'Windows', '10.0.0']
+const socket = makeWASocket({
+    auth: state,
+    version,
+    printQRInTerminal: false,
+    // ⚠️ "Ubuntu / Chrome / 22.04" is the default fingerprint copy-pasted across
+    // thousands of public bot repos, which makes it an easy signature to flag.
+    // Using a less common desktop fingerprint reduces (does not eliminate) that risk.
+    browser: ["Windows", "Edge", "120.0.0.0"],
+    connectTimeoutMs: 60000,
+    keepAliveIntervalMs: 30000,
+    generateHighQualityLinkPreview: true,
+    markOnlineOnConnect: false
 });
 
     socketCreationTime.set(sanitizedNumber, Date.now());
