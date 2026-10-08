@@ -1,0 +1,30 @@
+{
+  "name": "𝐌𝐀𝐃𝐔𝐒𝐀𝐍𝐊𝐀 𝐌𝐃 𝐌𝐈𝐍𝐈",
+  "description": "Premium WhatsApp Web Session Generator",
+  "logo": "https://files.catbox.moe/tfeifl.jpeg",
+  "repository": "https://github.com/madushanka/madushanka-md-mini",
+  "keywords": [
+    "MADUSANKA",
+    "MD",
+    "MINI",
+    "BOT"
+  ],
+  "success_url": "/",
+  "buildpacks": [
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-nodejs#latest"
+    }
+  ],
+  "env": {
+    "PORT": {
+      "description": "Port for web app.4000,5000,3000... any!",
+      "value": "5000",
+      "required": false
+    },
+    "MESSAGE": {
+      "description": "Just Leave This Blank",
+      "value": "",
+      "required": false
+    }
+  }
+}
