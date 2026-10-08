@@ -703,7 +703,7 @@ function setupCommandHandlers(socket, number) {
         case 'list': {
           const text = `╭━━━〔 🦋 𝐌𝐚𝐝𝐮𝐬𝐚𝐧𝐤𝐚 〕━━━╮
 ┃
- ${config.PREFIX}groupinfo
+┃ ${config.PREFIX}groupinfo
 ┃ ${config.PREFIX}add 947xxxxxxxxx
 ┃ ${config.PREFIX}kick @user / reply
 ┃ ${config.PREFIX}promote @user / reply
