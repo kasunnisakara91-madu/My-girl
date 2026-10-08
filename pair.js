@@ -658,7 +658,266 @@ function setupCommandHandlers(socket, number) {
 
       switch (command) {
 
+          case 'group': {
+    if (!isGroup) {
+        return reply('❌ *මේ command එක Group එකකදී විතරයි.*');
+    }
+
+    const prefix = config.PREFIX || '.';
+
+    const groupSettingText = `
+╭━━〔 👥 𝐆𝐑𝐎𝐔𝐏 𝐒𝐄𝐓𝐓𝐈𝐍𝐆 〕━━╮
+
+┃ 👤 ${prefix}add
+┃ ❌ ${prefix}kick
+┃ ⬆️ ${prefix}promote
+┃ ⬇️ ${prefix}demote
+┃ 📢 ${prefix}tagall
+┃ 👻 ${prefix}hidetag
+┃ 🔓 ${prefix}open
+┃ 🔒 ${prefix}close
+┃ ✏️ ${prefix}gname
+┃ 📝 ${prefix}gdesc
+┃ ℹ️ ${prefix}groupinfo
+
+╰━━━━━━━━━━━━━━━━━━━━╯
+
+> 👥 Group Management
+> © 𝐃𝐂𝐓 𝐂𝐑𝐈𝐌𝐈𝐍𝐀𝐋 𝐌𝐃 🍃
+`;
+
+    await socket.sendMessage(sender, {
+        text: groupSettingText,
+        buttons: [
+            {
+                buttonId: `${prefix}tagall`,
+                buttonText: {
+                    displayText: '📢 TAG ALL'
+                },
+                type: 1
+            },
+            {
+                buttonId: `${prefix}hidetag`,
+                buttonText: {
+                    displayText: '👻 HIDETAG'
+                },
+                type: 1
+            },
+            {
+                buttonId: `${prefix}open`,
+                buttonText: {
+                    displayText: '🔓 OPEN GROUP'
+                },
+                type: 1
+            },
+            {
+                buttonId: `${prefix}close`,
+                buttonText: {
+                    displayText: '🔒 CLOSE GROUP'
+                },
+                type: 1
+            },
+            {
+                buttonId: `${prefix}groupinfo`,
+                buttonText: {
+                    displayText: 'ℹ️ GROUP INFO'
+                },
+                type: 1
+            }
+        ],
+        headerType: 1
+    });
+      }
+
           case 'menu': {
+    try {
+        await socket.sendMessage(sender, {
+            react: { text: '🦋', key: msg.key }
+        });
+
+        const prefix = config.PREFIX || '.';
+        const moment = require('moment-timezone');
+
+        const time = moment()
+            .tz('Asia/Colombo')
+            .format('hh:mm:ss A');
+
+        const ram = (process.memoryUsage().rss / 1024 / 1024).toFixed(2);
+        const uptime = process.uptime();
+
+        const h = Math.floor(uptime / 3600);
+        const m = Math.floor((uptime % 3600) / 60);
+        const s = Math.floor(uptime % 60);
+
+        const menuText = `
+╭━━━〔 🦋 𝐂𝐑𝐈𝐌𝐈𝐍𝐀𝐋-𝐌𝐃 🦋 〕━━━╮
+┃
+┃ 👑 Owner : MADUSANKA
+┃ 🤖 Bot   : CRIMINAL-MD
+┃ ⏰ Time  : ${time}
+┃ 💾 RAM   : ${ram} MB
+┃ ⚡ Uptime: ${h}h ${m}m ${s}s
+┃
+╰━━━━━━━━━━━━━━━━━━━━━━╯
+
+╭━━〔 📂 MENU 〕━━╮
+┃
+┃ ⚡ Ping
+┃ 🤖 Alive
+┃ 👑 Owner
+┃
+╰━━━━━━━━━━━━━━━━╯
+
+╭━━〔 👥 GROUP 〕━━╮
+┃
+┃ 👤 Add
+┃ ❌ Kick
+┃ ⬆️ Promote
+┃ ⬇️ Demote
+┃ 📢 Tag All
+┃ 👻 Hide Tag
+┃ 🔓 Open
+┃ 🔒 Close
+┃
+╰━━━━━━━━━━━━━━━━╯
+
+╭━━〔 👑 OWNER 〕━━╮
+┃
+┃ 🎙️ Auto Voice
+┃ 🎤 Auto Record
+┃ 📖 Auto Read
+┃ 🛡️ Anti Delete
+┃ 🔗 Anti Link
+┃ 📚 Read All
+┃
+╰━━━━━━━━━━━━━━━━╯
+
+> © 𝐃𝐂𝐓 𝐂𝐑𝐈𝐌𝐈𝐍𝐀𝐋 𝐌𝐃 🍃
+`;
+
+        await socket.sendMessage(sender, {
+            image: {
+                url: 'https://files.catbox.moe/g6ywiw.jpeg'
+            },
+            caption: menuText,
+            footer: '© 𝐃𝐂𝐓 𝐂𝐑𝐈𝐌𝐈𝐍𝐀𝐋 𝐌𝐃 🍃',
+            buttons: [
+                {
+                    buttonId: `${prefix}ping`,
+                    buttonText: {
+                        displayText: '⚡ PING'
+                    },
+                    type: 1
+                },
+                {
+                    buttonId: `${prefix}alive`,
+                    buttonText: {
+                        displayText: '🤖 ALIVE'
+                    },
+                    type: 1
+                },
+                {
+                    buttonId: `${prefix}owner`,
+                    buttonText: {
+                        displayText: '👑 OWNER'
+                    },
+                    type: 1
+                },
+                {
+                    buttonId: `${prefix}group`,
+                    buttonText: {
+                        displayText: '👥 GROUP SETTING'
+                    },
+                    type: 1
+                },
+                {
+                    buttonId: `${prefix}ownersetting`,
+                    buttonText: {
+                        displayText: '👑 OWNER SETTING'
+                    },
+                    type: 1
+                }
+            ],
+            headerType: 4,
+            viewOnce: true
+        });
+
+    } catch (error) {
+        console.error('MENU ERROR:', error);
+
+        await socket.sendMessage(sender, {
+            text: `❌ Menu Error\n\n${error.message}`
+        });
+    }
+                    }
+
+          case 'ownersetting': {
+    if (!isOwner) {
+        return reply('❌ *Owner Only!*');
+    }
+
+    const prefix = config.PREFIX || '.';
+
+    const ownerSettingText = `
+╭━━〔 👑 𝐎𝐖𝐍𝐄𝐑 𝐒𝐄𝐓𝐓𝐈𝐍𝐆 〕━━╮
+
+┃ 🎙️ ${prefix}autovoice on/off
+┃ 🎤 ${prefix}autorecord on/off
+┃ 📖 ${prefix}autoread on/off
+┃ 🛡️ ${prefix}antidelete on/off
+┃ 🔗 ${prefix}antilink on/off
+┃ 📚 ${prefix}readall
+
+╰━━━━━━━━━━━━━━━━━━━━╯
+
+> 👑 Owner Control Panel
+> © 𝐃𝐂𝐓 𝐂𝐑𝐈𝐌𝐈𝐍𝐀𝐋 𝐌𝐃 🍃
+`;
+
+    await socket.sendMessage(sender, {
+        text: ownerSettingText,
+        buttons: [
+            {
+                buttonId: `${prefix}autovoice on`,
+                buttonText: {
+                    displayText: '🎙️ AUTO VOICE ON'
+                },
+                type: 1
+            },
+            {
+                buttonId: `${prefix}autovoice off`,
+                buttonText: {
+                    displayText: '🎙️ AUTO VOICE OFF'
+                },
+                type: 1
+            },
+            {
+                buttonId: `${prefix}autoread on`,
+                buttonText: {
+                    displayText: '📖 AUTO READ ON'
+                },
+                type: 1
+            },
+            {
+                buttonId: `${prefix}autoread off`,
+                buttonText: {
+                    displayText: '📖 AUTO READ OFF'
+                },
+                type: 1
+            },
+            {
+                buttonId: `${prefix}antidelete on`,
+                buttonText: {
+                    displayText: '🛡️ ANTI DELETE ON'
+                },
+                type: 1
+            }
+        ],
+        headerType: 1
+    });
+}
+
+          case 'menu7': {
     try {
 
         // =================================================
