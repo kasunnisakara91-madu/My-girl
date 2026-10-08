@@ -1,0 +1,30 @@
+{
+  "name": "dew-md-mini",
+  "version": "1.0.0",
+  "description": "dew-md-mini WhatsApp Bot with Multi-Number Support",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@itsliaaa/baileys": "0.3.18-final",
+    "axios": "^1.7.9",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "file-type": "^21.0.0",
+    "fs-extra": "^11.2.0",
+    "jimp": "^1.6.1",
+    "lru-cache": "^10.4.3",
+    "moment-timezone": "^0.6.0",
+    "mongoose": "^8.15.0",
+    "node-fetch": "^3.3.2",
+    "pino": "^9.6.0",
+    "yt-search": "2.12.1",
+    "ytdl-core": "^4.11.5"
+  }
+}
