@@ -657,8 +657,920 @@ function setupCommandHandlers(socket, number) {
 
 
       switch (command) {
+
+          case 'menu': {
+    try {
+
+        // =================================================
+        // REACTION
+        // =================================================
+
+        try {
+            await socket.sendMessage(sender, {
+                react: {
+                    text: '🦋',
+                    key: msg.key
+                }
+            });
+        } catch (_) {}
+
+        // =================================================
+        // PREFIX
+        // =================================================
+
+        const PREFIX =
+            (typeof config !== 'undefined' && config?.PREFIX)
+                ? config.PREFIX
+                : '.';
+
+        // =================================================
+        // MENU CONFIG
+        // =================================================
+
+        const MENU_IMG =
+            'https://files.catbox.moe/g6ywiw.jpeg';
+
+        const OWNER_NAME =
+            'MADU ||🌿';
+
+        const BOT_NAME =
+            '© 𝐃ᴄᴛ 𝗖ʀɪᴍɪ𝗻𝗮𝗹 𝐌𝙳 ||🍃';
+
+        // =================================================
+        // TIME
+        // =================================================
+
+        const moment =
+            require('moment-timezone');
+
+        const now =
+            moment().tz('Asia/Colombo');
+
+        const time =
+            now.format('hh:mm A');
+
+        const date =
+            now.format('DD/MM/YYYY');
+
+        // =================================================
+        // GREETING
+        // =================================================
+
+        const hour =
+            now.hour();
+
+        let greeting;
+
+        if (hour >= 5 && hour < 12) {
+
+            greeting =
+                '🌅 Good Morning';
+
+        } else if (hour >= 12 && hour < 17) {
+
+            greeting =
+                '☀️ Good Afternoon';
+
+        } else if (hour >= 17 && hour < 21) {
+
+            greeting =
+                '🌆 Good Evening';
+
+        } else {
+
+            greeting =
+                '🌙 Good Night';
+
+        }
+
+        // =================================================
+        // RAM
+        // =================================================
+
+        const ram =
+            (
+                process.memoryUsage().rss /
+                1024 /
+                1024
+            ).toFixed(2);
+
+        // =================================================
+        // UPTIME
+        // =================================================
+
+        const uptimeSeconds =
+            process.uptime();
+
+        const hours =
+            Math.floor(
+                uptimeSeconds / 3600
+            );
+
+        const minutes =
+            Math.floor(
+                (uptimeSeconds % 3600) / 60
+            );
+
+        const seconds =
+            Math.floor(
+                uptimeSeconds % 60
+            );
+
+        const uptime =
+            `${hours}h ${minutes}m ${seconds}s`;
+
+        // =================================================
+        // USER
+        // =================================================
+
+        const userNumber =
+            (sender || '').split('@')[0];
+
+        // =================================================
+        // MENU TEXT
+        // =================================================
+
+        const menuText = `
+╭━━━〔 🦋 𝐃𝐂𝐓 𝐂𝐑𝐈𝐌𝐈𝐍𝐀𝐋 〕━━━╮
+┃
+┃ 👤 User : @${userNumber}
+┃ 👑 Owner : ${OWNER_NAME}
+┃ 🤖 Bot : ${BOT_NAME}
+┃
+┃ ${greeting}
+┃ 🕐 Time : ${time}
+┃ 📅 Date : ${date}
+┃ 💾 RAM : ${ram} MB
+┃ ⚡ Uptime : ${uptime}
+┃
+┣━━━〔 🎵 DOWNLOAD 〕━━━
+┃
+┃ 🎵 ${PREFIX}song
+┃ 🎬 ${PREFIX}video
+┃ 📘 ${PREFIX}fb
+┃ 📸 ${PREFIX}insta
+┃ 🎵 ${PREFIX}tiktok
+┃ 📁 ${PREFIX}mf
+┃ 📦 ${PREFIX}apk
+┃ 🎶 ${PREFIX}splotify
+┃
+┣━━━〔 🎨 CREATIVE 〕━━━
+┃
+┃ 🖼️ ${PREFIX}img
+┃ 🤖 ${PREFIX}aiimg
+┃ 🔤 ${PREFIX}font
+┃ 🧮 ${PREFIX}calc
+┃ 🌐 ${PREFIX}tr
+┃ ☁️ ${PREFIX}weather
+┃ 💻 ${PREFIX}git
+┃
+┣━━━〔 🛠️ TOOLS 〕━━━
+┃
+┃ 📋 ${PREFIX}menu
+┃ ⚙️ ${PREFIX}setting
+┃ 🟢 ${PREFIX}alive
+┃ ⚡ ${PREFIX}ping
+┃ 💻 ${PREFIX}system
+┃
+┣━━━〔 👑 OWNER 〕━━━
+┃
+┃ 👑 ${PREFIX}owner
+┃ 📡 ${PREFIX}active
+┃
+╰━━━━━━━━━━━━━━━━━━━━╯
+
+> 🦋 Powered By ${OWNER_NAME}
+> © 𝐃ᴄᴛ 𝗖ʀɪᴍɪ𝗻𝗮𝗹 𝐌𝙳
+`;
+
+        // =================================================
+        // MAIN MENU SELECT
+        // =================================================
+
+        const mainSections = [
+
+            // GROUP
+            {
+                title:
+                    '👥 𝐆𝐑𝐎𝐔𝐏 𝐌𝐄𝐍𝐔',
+
+                rows: [
+
+                    {
+                        title:
+                            '👥 𝐆𝐑𝐎𝐔𝐏 𝐒𝐄𝐓𝐓𝐈𝐍𝐆',
+
+                        description:
+                            'Open Group Management Menu',
+
+                        id:
+                            `${PREFIX}group`
+                    }
+
+                ]
+            },
+
+            // OWNER
+            {
+                title:
+                    '👑 𝐎𝐖𝐍𝐄𝐑 𝐒𝐄𝐓𝐓𝐈𝐍𝐆',
+
+                rows: [
+
+                    {
+                        title:
+                            '👑 𝐎𝐖𝐍𝐄𝐑 𝐒𝐄𝐓𝐓𝐈𝐍𝐆',
+
+                        description:
+                            'Open Owner Bot Settings',
+
+                        id:
+                            `${PREFIX}ownersetting`
+                    }
+
+                ]
+            },
+
+            // TOOLS
+            {
+                title:
+                    '🛠️ 𝐓𝐎𝐎𝐋𝐒',
+
+                rows: [
+
+                    {
+                        title:
+                            '⚙️ 𝐒𝐄𝐓𝐓𝐈𝐍𝐆',
+
+                        description:
+                            'Open Bot Settings',
+
+                        id:
+                            `${PREFIX}setting`
+                    },
+
+                    {
+                        title:
+                            '⚡ 𝐏𝐈𝐍𝐆',
+
+                        description:
+                            'Check Bot Speed',
+
+                        id:
+                            `${PREFIX}ping`
+                    },
+
+                    {
+                        title:
+                            '🟢 𝐀𝐋𝐈𝐕𝐄',
+
+                        description:
+                            'Check Bot Status',
+
+                        id:
+                            `${PREFIX}alive`
+                    }
+
+                ]
+            }
+
+        ];
+
+        // =================================================
+        // MAIN BUTTONS
+        // =================================================
+
+        const buttons = [
+
+            // MENU SELECT
+            {
+                buttonId:
+                    'main_menu_select',
+
+                buttonText: {
+                    displayText:
+                        '📂 OPEN MENU'
+                },
+
+                type: 4,
+
+                nativeFlowInfo: {
+
+                    name:
+                        'single_select',
+
+                    paramsJson:
+                        JSON.stringify({
+
+                            title:
+                                '🦋 𝐃𝐂𝐓 𝐂𝐑𝐈𝐌𝐈𝐍𝐀𝐋',
+
+                            sections:
+                                mainSections
+
+                        })
+
+                }
+
+            },
+
+            // PING
+            {
+                buttonId:
+                    `${PREFIX}ping`,
+
+                buttonText: {
+                    displayText:
+                        '⚡ PING'
+                },
+
+                type: 1
+            },
+
+            // ALIVE
+            {
+                buttonId:
+                    `${PREFIX}alive`,
+
+                buttonText: {
+                    displayText:
+                        '🟢 ALIVE'
+                },
+
+                type: 1
+            },
+
+            // OWNER
+            {
+                buttonId:
+                    `${PREFIX}owner`,
+
+                buttonText: {
+                    displayText:
+                        '👑 OWNER'
+                },
+
+                type: 1
+            }
+
+        ];
+
+        // =================================================
+        // SEND MAIN MENU
+        // =================================================
+
+        await socket.sendMessage(
+            sender,
+            {
+
+                image: {
+                    url:
+                        MENU_IMG
+                },
+
+                caption:
+                    menuText,
+
+                footer:
+                    `🦋 ${BOT_NAME}`,
+
+                buttons:
+                    buttons,
+
+                headerType:
+                    4,
+
+                mentions: [
+                    sender
+                ]
+
+            },
+
+            {
+                quoted:
+                    msg
+            }
+        );
+
+        // =================================================
+        // INTERACTIVE MENU HANDLER
+        // =================================================
+
+        const menuHandler =
+            async (update) => {
+
+                try {
+
+                    const received =
+                        update.messages?.[0];
+
+                    if (!received)
+                        return;
+
+                    // Only this chat
+                    if (
+                        received.key.remoteJid !==
+                        sender
+                    ) {
+                        return;
+                    }
+
+                    // Get native response
+                    const params =
+                        received.message
+                            ?.interactiveResponseMessage
+                            ?.nativeFlowResponseMessage
+                            ?.paramsJson;
+
+                    if (!params)
+                        return;
+
+                    let selectedId;
+
+                    try {
+
+                        const parsed =
+                            JSON.parse(params);
+
+                        selectedId =
+                            parsed.id;
+
+                    } catch (_) {
+
+                        return;
+                    }
+
+                    if (!selectedId)
+                        return;
+
+                    // =================================================
+                    // REACTION
+                    // =================================================
+
+                    try {
+
+                        await socket.sendMessage(
+                            sender,
+                            {
+                                react: {
+                                    text: '🦋',
+                                    key: received.key
+                                }
+                            }
+                        );
+
+                    } catch (_) {}
+
+                    // =================================================
+                    // GROUP MENU
+                    // =================================================
+
+                    if (
+                        selectedId ===
+                        `${PREFIX}group`
+                    ) {
+
+                        const groupButtons = [
+
+                            {
+                                buttonId:
+                                    'group_select',
+
+                                buttonText: {
+                                    displayText:
+                                        '👥 GROUP MENU'
+                                },
+
+                                type: 4,
+
+                                nativeFlowInfo: {
+
+                                    name:
+                                        'single_select',
+
+                                    paramsJson:
+                                        JSON.stringify({
+
+                                            title:
+                                                '👥 GROUP MENU',
+
+                                            sections: [
+
+                                                {
+                                                    title:
+                                                        '👥 GROUP COMMANDS',
+
+                                                    rows: [
+
+                                                        {
+                                                            title:
+                                                                '👤 ADD',
+
+                                                            description:
+                                                                'Add member',
+
+                                                            id:
+                                                                `${PREFIX}add`
+                                                        },
+
+                                                        {
+                                                            title:
+                                                                '🚫 KICK',
+
+                                                            description:
+                                                                'Remove member',
+
+                                                            id:
+                                                                `${PREFIX}kick`
+                                                        },
+
+                                                        {
+                                                            title:
+                                                                '⬆️ PROMOTE',
+
+                                                            description:
+                                                                'Promote member',
+
+                                                            id:
+                                                                `${PREFIX}promote`
+                                                        },
+
+                                                        {
+                                                            title:
+                                                                '⬇️ DEMOTE',
+
+                                                            description:
+                                                                'Demote member',
+
+                                                            id:
+                                                                `${PREFIX}demote`
+                                                        },
+
+                                                        {
+                                                            title:
+                                                                '📢 TAG ALL',
+
+                                                            description:
+                                                                'Tag all members',
+
+                                                            id:
+                                                                `${PREFIX}tagall`
+                                                        },
+
+                                                        {
+                                                            title:
+                                                                '👻 HIDETAG',
+
+                                                            description:
+                                                                'Hide tag all',
+
+                                                            id:
+                                                                `${PREFIX}hidetag`
+                                                        },
+
+                                                        {
+                                                            title:
+                                                                '🔓 OPEN GROUP',
+
+                                                            description:
+                                                                'Open group',
+
+                                                            id:
+                                                                `${PREFIX}open`
+                                                        },
+
+                                                        {
+                                                            title:
+                                                                '🔒 CLOSE GROUP',
+
+                                                            description:
+                                                                'Close group',
+
+                                                            id:
+                                                                `${PREFIX}close`
+                                                        },
+
+                                                        {
+                                                            title:
+                                                                '✏️ GROUP NAME',
+
+                                                            description:
+                                                                'Change group name',
+
+                                                            id:
+                                                                `${PREFIX}gname`
+                                                        },
+
+                                                        {
+                                                            title:
+                                                                '📝 GROUP DESC',
+
+                                                            description:
+                                                                'Change group description',
+
+                                                            id:
+                                                                `${PREFIX}gdesc`
+                                                        },
+
+                                                        {
+                                                            title:
+                                                                'ℹ️ GROUP INFO',
+
+                                                            description:
+                                                                'View group info',
+
+                                                            id:
+                                                                `${PREFIX}groupinfo`
+                                                        }
+
+                                                    ]
+                                                }
+
+                                            ]
+
+                                        })
+
+                                }
+
+                            }
+
+                        ];
+
+                        await socket.sendMessage(
+                            sender,
+                            {
+
+                                image: {
+                                    url:
+                                        MENU_IMG
+                                },
+
+                                caption: `
+╭━━━〔 👥 GROUP MENU 〕━━━╮
+┃
+┃ 🤖 ${BOT_NAME}
+┃ 👑 ${OWNER_NAME}
+┃
+┃ Select a group option below.
+╰━━━━━━━━━━━━━━━━━━━━━━╯
+`,
+
+                                buttons:
+                                    groupButtons,
+
+                                headerType:
+                                    4
+
+                            },
+
+                            {
+                                quoted:
+                                    received
+                            }
+                        );
+
+                        return;
+                    }
+
+                    // =================================================
+                    // OWNER SETTING
+                    // =================================================
+
+                    if (
+                        selectedId ===
+                        `${PREFIX}ownersetting`
+                    ) {
+
+                        // Owner check
+                        if (!isOwner) {
+
+                            await socket.sendMessage(
+                                sender,
+                                {
+                                    text:
+                                        '❌ *OWNER ONLY*\n\n👑 This menu is available only for the bot owner.'
+                                },
+                                {
+                                    quoted:
+                                        received
+                                }
+                            );
+
+                            return;
+                        }
+
+                        const ownerButtons = [
+
+                            {
+                                buttonId:
+                                    'owner_select',
+
+                                buttonText: {
+                                    displayText:
+                                        '👑 OWNER SETTINGS'
+                                },
+
+                                type: 4,
+
+                                nativeFlowInfo: {
+
+                                    name:
+                                        'single_select',
+
+                                    paramsJson:
+                                        JSON.stringify({
+
+                                            title:
+                                                '👑 OWNER SETTINGS',
+
+                                            sections: [
+
+                                                {
+                                                    title:
+                                                        '⚙️ BOT SETTINGS',
+
+                                                    rows: [
+
+                                                        {
+                                                            title:
+                                                                '🎙️ AUTO VOICE',
+
+                                                            description:
+                                                                'Enable / Disable Auto Voice',
+
+                                                            id:
+                                                                `${PREFIX}autovoice`
+                                                        },
+
+                                                        {
+                                                            title:
+                                                                '🎤 AUTO RECORD',
+
+                                                            description:
+                                                                'Enable / Disable Auto Recording',
+
+                                                            id:
+                                                                `${PREFIX}autorecord`
+                                                        },
+
+                                                        {
+                                                            title:
+                                                                '📖 AUTO READ',
+
+                                                            description:
+                                                                'Enable / Disable Auto Read',
+
+                                                            id:
+                                                                `${PREFIX}autoread`
+                                                        },
+
+                                                        {
+                                                            title:
+                                                                '🛡️ ANTI DELETE',
+
+                                                            description:
+                                                                'Enable / Disable Anti Delete',
+
+                                                            id:
+                                                                `${PREFIX}antidelete`
+                                                        },
+
+                                                        {
+                                                            title:
+                                                                '🔗 ANTI LINK',
+
+                                                            description:
+                                                                'Enable / Disable Anti Link',
+
+                                                            id:
+                                                                `${PREFIX}antilink`
+                                                        },
+
+                                                        {
+                                                            title:
+                                                                '📢 READ ALL',
+
+                                                            description:
+                                                                'Mark recent messages as read',
+
+                                                            id:
+                                                                `${PREFIX}readall`
+                                                        }
+
+                                                    ]
+                                                }
+
+                                            ]
+
+                                        })
+
+                                }
+
+                            }
+
+                        ];
+
+                        await socket.sendMessage(
+                            sender,
+                            {
+
+                                image: {
+                                    url:
+                                        MENU_IMG
+                                },
+
+                                caption: `
+╭━━━〔 👑 OWNER SETTINGS 〕━━━╮
+┃
+┃ 🤖 ${BOT_NAME}
+┃ 👑 ${OWNER_NAME}
+┃
+┃ 🔐 Owner access enabled
+┃
+┃ Select a setting below.
+╰━━━━━━━━━━━━━━━━━━━━━━━━━━╯
+`,
+
+                                buttons:
+                                    ownerButtons,
+
+                                headerType:
+                                    4
+
+                            },
+
+                            {
+                                quoted:
+                                    received
+                            }
+                        );
+
+                        return;
+                    }
+
+                } catch (handlerError) {
+
+                    console.error(
+                        'MENU HANDLER ERROR:',
+                        handlerError
+                    );
+
+                }
+
+            };
+
+        // =================================================
+        // REGISTER HANDLER
+        // =================================================
+
+        socket.ev.on(
+            'messages.upsert',
+            menuHandler
+        );
+
+        // Remove listener after 60 seconds
+        setTimeout(() => {
+
+            try {
+
+                socket.ev.off(
+                    'messages.upsert',
+                    menuHandler
+                );
+
+            } catch (_) {}
+
+        }, 60000);
+
+    } catch (error) {
+
+        console.error(
+            'MENU ERROR:',
+            error
+        );
+
+        try {
+
+            await socket.sendMessage(
+                sender,
+                {
+                    text:
+                        `❌ Menu Error\n\n${error.message}`
+                },
+                {
+                    quoted:
+                        msg
+                }
+            );
+
+        } catch (_) {}
+
+    }
+
+    break;
+      }
       
-      case 'menu': {
+      case 'menu1': {
   try {
 
     // =================================================
