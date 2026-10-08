@@ -27,7 +27,7 @@ const {
   jidNormalizedUser,
   downloadContentFromMessage,
   DisconnectReason
-} = require('@itsliaaa/baileys');
+} = require('baileyz');
 const { title } = require('process');
 const yts = require('yt-search');
 const FormData = require('form-data');
