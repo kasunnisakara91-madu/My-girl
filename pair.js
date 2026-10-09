@@ -657,8 +657,205 @@ function setupCommandHandlers(socket, number) {
 
 
       switch (command) {
+
+          case 'menu': {
+  try {
+    await socket.sendMessage(sender, {
+      react: {
+        text: '🍃',
+        key: msg.key
+      }
+    });
+
+    // ================= CONFIG =================
+    let userCfg = {};
+    const cleanNumber = String(number || '').replace(/\D/g, '');
+
+    if (
+      cleanNumber &&
+      typeof loadUserConfigFromMongo === 'function'
+    ) {
+      try {
+        userCfg = await loadUserConfigFromMongo(cleanNumber) || {};
+      } catch (err) {
+        console.error('User config error:', err.message);
+      }
+    }
+
+    const MENU_IMG = 'https://files.catbox.moe/h9hm7k.jpeg';
+    const OWNER_NAME = '𝐌𝙰𝙳𝚄𝚄 ||🌿';
+    const PREFIX = config.PREFIX || '.';
+
+    const BOT_NAME =
+      userCfg.botName ||
+      '© 𝐃ᴄᴛ 𝗖ʀɪᴍɪɴᴀ𝐥 𝐌𝙳 ||🍃';
+
+    const userTag = `@${String(sender).split('@')[0]}`;
+
+    // ================= TEXT MENU =================
+    const menuText = `
+╭━━〔 ${BOT_NAME} 〕━━╮
+┃
+┃ 👤 𝐔𝐒𝐄𝐑 : ${userTag}
+┃ 👑 𝐎𝐖𝐍𝐄𝐑 : ${OWNER_NAME}
+┃ 🤖 𝐁𝐎𝐓 : ${BOT_NAME}
+┃ ⚡ 𝐏𝐑𝐄𝐅𝐈𝐗 : ${PREFIX}
+┃
+╰━━━━━━━━━━━━━━━━━━╯
+
+╭━━〔 🌿 𝐌𝐀𝐈𝐍 𝐌𝐄𝐍𝐔 〕━━╮
+┃
+┃ 👋 Hello, ${userTag}
+┃
+┃ Select a command by typing it.
+┃ Example: ${PREFIX}song
+┃
+╰━━━━━━━━━━━━━━━━━━╯
+
+╭━━〔 🎧 𝐃𝐎𝐖𝐍𝐋𝐎𝐀𝐃 𝐌𝐄𝐍𝐔 〕━━╮
+┃
+┃ 🎵 𝐒𝐎𝐍𝐆
+┃   └─ ${PREFIX}song
+┃
+┃ 🎬 𝐕𝐈𝐃𝐄𝐎
+┃   └─ ${PREFIX}video
+┃
+┃ 📘 𝐅𝐀𝐂𝐄𝐁𝐎𝐎𝐊
+┃   └─ ${PREFIX}fb
+┃
+┃ 📸 INSTAGRAM
+┃   └─ ${PREFIX}insta
+┃
+┃ 🎶 𝐓𝐈𝐊𝐓𝐎𝐊
+┃   └─ ${PREFIX}tiktok
+┃
+┃ 📂 𝐌𝐄𝐃𝐈𝐀𝐅𝐈𝐑𝐄
+┃   └─ ${PREFIX}mf
+┃
+┃ 📱 𝐀𝐏𝐊 𝐃𝐎𝐖𝐍𝐋𝐎𝐀𝐃
+┃   └─ ${PREFIX}apk
+┃
+┃ 🎧 𝐒𝐏𝐎𝐓𝐈𝐘𝐅𝐘
+┃   └─ ${PREFIX}splotify
+┃
+╰━━━━━━━━━━━━━━━━━━╯
+
+╭━━〔 🎨 𝐂𝐑𝐄𝐀𝐓𝐈𝐕𝐄 𝐌𝐄𝐍𝐔 〕━━╮
+┃
+┃ 🖼️ IMAGE SEARCH
+┃   └─ ${PREFIX}img
+┃
+┃ 🤖 𝐀𝐈 𝐈𝐌𝐀𝐆𝐄 𝐆𝐄𝐍𝐄𝐑𝐀𝐓𝐎𝐑
+┃   └─ ${PREFIX}aiimg
+┃
+┃ ✨ 𝐅𝐀𝐍𝐂𝐘 𝐃𝐎𝐍𝐓
+┃   └─ ${PREFIX}font
+┃
+┃ 🧮⬆️ 𝐂𝐀𝐋𝐂𝐔𝐋𝐀𝐓𝐎𝐑
+┃   └─ ${PREFIX}calc
+┃
+┃ 🌐 𝐓𝐑𝐀𝐍𝐒𝐋𝐀𝐓𝐎𝐑
+┃   └─ ${PREFIX}tr
+┃
+┃ 🌤️ 𝐖𝐄𝐀𝐓𝐇𝐄𝐑
+┃   └─ ${PREFIX}weather
+┃
+┃ 🐙 𝐆𝐈𝐓𝐇𝐔𝐁 𝐇𝐄𝐋𝐏𝐄𝐑
+┃   └─ ${PREFIX}git
+┃
+╰━━━━━━━━━━━━━━━━━━╯
+
+╭━━〔 🔧 𝐓𝐎𝐎𝐋𝐒 𝐌𝐄𝐍𝐔 〕━━╮
+┃
+┃ 📋 𝐌𝐄𝐍𝐔
+┃   └─ ${PREFIX}menu
+┃
+┃ 💚 𝐀𝐋𝐈𝐕𝐄
+┃   └─ ${PREFIX}alive
+┃
+┃ ⚡ 𝐏𝐈𝐍𝐆
+┃   └─ ${PREFIX}ping
+┃
+┃ 💻 𝐒𝐲𝐬𝐭𝐞𝐦 𝐢𝐧𝐟𝐨
+┃   └─ ${PREFIX}system
+┃
+┃ 👥 𝐓𝐚𝐠 𝐀𝐥𝐥
+┃   └─ ${PREFIX}tagall
+┃
+┃ 👁️ 𝐇𝐢𝐝𝐞 𝐓𝐚𝐠
+┃   └─ ${PREFIX}hidetag
+┃
+╰━━━━━━━━━━━━━━━━━━╯
+
+╭━━〔 ⚙️ 𝐒𝐄𝐓𝐓𝐈𝐍𝐆 𝐌𝐄𝐍𝐔 〕━━╮
+┃
+┃ 📞 𝐀𝐮𝐭𝐨 𝐑𝐞𝐣𝐞𝐜𝐭 𝐂𝐚𝐥𝐥
+┃   └─ ${PREFIX}menu
+┃
+┃ 🎤 𝐀𝐮𝐭𝐨 𝐕𝐨𝐢𝐜𝐞
+┃   └─ ${PREFIX}autovoice on/off
+┃
+┃ 🌎 𝐖𝐎𝐑𝐊 𝐌𝐎𝐃𝐄
+┃   └─ ${PREFIX}public/privite/inbox/group
+┃
+┃ ⌨️ 𝐅𝐚𝐤𝐞 𝐓𝐲𝐩𝐢𝐧𝐠
+┃   └─ ${PREFIX}autotyping on/off
+┃
+┃ 🕕 𝐅𝐚𝐤𝐞 𝐓𝐲𝐩𝐢𝐧𝐠
+┃   └─ ${PREFIX}autotyping on/off
+┃
+┃ ❤️ 𝐀𝐮𝐭𝐨 𝐋𝐢𝐤𝐞 𝐒𝐭𝐚𝐭𝐮𝐬
+┃   └─ ${PREFIX}arm on/off
+┃
+┃ 📑 𝐑𝐞𝐚𝐝 𝐂𝐦𝐝𝐬
+┃   └─ ${PREFIX}mread all/off
+┃
+┃ 🌗 𝐀𝐥𝐰𝐚𝐲𝐬 𝐎𝐧𝐥𝐢𝐧𝐞
+┃   └─ ${PREFIX}botpresence online/offline
+┃
+╰━━━━━━━━━━━━━━━━━━╯
+
+╭━━〔 🔥 𝐁𝐎𝐓 𝐈𝐍𝐅𝐎𝐑𝐌𝐀𝐓𝐈𝐎𝐍 〕━━╮
+┃
+┃ 🤖 𝐁𝐎𝐓 : ${BOT_NAME}
+┃ 👑 𝐎𝐖𝐍𝐄𝐑 : ${OWNER_NAME}
+┃ 📌 𝐓𝐘𝐏𝐄 : WHATSAPP BOT
+┃ 🌿 𝐒𝐓𝐀𝐓𝐔𝐒 : ONLINE
+┃
+╰━━━━━━━━━━━━━━━━━━╯
+
+> © ${BOT_NAME}
+> 🌿 POWERED BY ${OWNER_NAME}
+> ⚡ THANK YOU FOR USING OUR BOT
+`.trim();
+
+    // ================= SEND MENU =================
+    await socket.sendMessage(sender, {
+      image: {
+        url: MENU_IMG
+      },
+      caption: menuText,
+      contextInfo: {
+        mentionedJid: [sender],
+        isForwarded: true,
+        forwardingScore: 1
+      }
+    });
+
+  } catch (err) {
+    console.error('Menu error:', err);
+
+    try {
+      await socket.sendMessage(sender, {
+        text: '❌ Menu එක යැවීමට නොහැකි වුණා.'
+      });
+    } catch (_) {}
+  }
+
+  break;
+  }
       
-      case 'menu': {
+      case 'menu2': {
   let menuHandler;
 
   try {
