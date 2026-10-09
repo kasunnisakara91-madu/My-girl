@@ -1019,7 +1019,7 @@ break;
   try {
     if (!isGroup) {
       await socket.sendMessage(sender, {
-        text: '❌ *GROUP SETTING* එක භාවිතා කරන්න group එකක් ඇතුළේ command එක දාන්න.',
+        text: '❌ *GROUP SETTING* එක භාවිතා කරන්න Group එකක් ඇතුළේ command එක දාන්න.'
       }, { quoted: msg });
       break;
     }
@@ -1032,24 +1032,45 @@ break;
 ┃ 📋 ${config.PREFIX}grouplist
 ┃
 ╰━━━━━━━━━━━━━━━━━━━━╯
-> © 𝐃ᴄᴛ 𝗖ʀɪᴍɪɴᴀ𝐥 𝐌𝙳 ||🍃`;
+> © 𝐃ᴄᴛ 𝗖ʀɪ𝗺𝗶𝗻𝐚𝐥 𝐌𝙳 ||🍃`;
 
     await socket.sendMessage(sender, {
       text,
       footer: config.BOT_FOOTER || '© CRIMINAL-MD',
       buttons: [
-        { buttonId: `${config.PREFIX}tagall`, buttonText: { displayText: '📢 TAG ALL' }, type: 1 },
-        { buttonId: `${config.PREFIX}groupjid`, buttonText: { displayText: 'ℹ️ GROUP INFO' }, type: 1 },
-        { buttonId: `${config.PREFIX}menu`, buttonText: { displayText: '🏠 MAIN MENU' }, type: 1 }
+        {
+          buttonId: `${config.PREFIX}tagall`,
+          buttonText: { displayText: '📢 TAG ALL' },
+          type: 1
+        },
+        {
+          buttonId: `${config.PREFIX}groupjid`,
+          buttonText: { displayText: 'ℹ️ GROUP INFO' },
+          type: 1
+        },
+        {
+          buttonId: `${config.PREFIX}grouplist`,
+          buttonText: { displayText: '📋 GROUP LIST' },
+          type: 1
+        }
       ],
       headerType: 1
     }, { quoted: msg });
+
   } catch (err) {
     console.error('Group menu error:', err);
-    await socket.sendMessage(sender, { text: `👥 GROUP SETTING\n${config.PREFIX}tagall\n${config.PREFIX}groupjid\n${config.PREFIX}grouplist` }, { quoted: msg });
+
+    await socket.sendMessage(sender, {
+      text:
+        `👥 *𝐆𝐑𝐎𝐔𝐏 𝐒𝐄𝐓𝐓𝐈𝐍𝐆*\n\n` +
+        `📢 ${config.PREFIX}tagall\n` +
+        `ℹ️ ${config.PREFIX}groupjid\n` +
+        `📋 ${config.PREFIX}grouplist`
+    }, { quoted: msg });
   }
+
   break;
-}
+                          }
 
 case 'ownersetting': {
   try {
